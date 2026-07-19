@@ -240,18 +240,17 @@ API:
    - **Build Command**: `npm ci --include=dev && npm rebuild better-sqlite3 && npm run build -w api`
    - **Start Command**: `npm run start:prod -w api`
    - **Instance type**: **Free**
-4. **Environment**에 추가 (Gmail 앱 비밀번호 권장):
+4. **Environment**에 추가 (**Render에서는 Resend 권장** — Gmail SMTP는 응답 없이 멈추는 경우가 많음):
 
 | Key | 예시 |
 |-----|------|
 | `NODE_VERSION` | `20` |
-| `SMTP_HOST` | `smtp.gmail.com` |
-| `SMTP_PORT` | `465` |
-| `SMTP_SECURE` | `true` |
-| `SMTP_USER` | `qorbaxk97@gmail.com` |
-| `SMTP_PASS` | Gmail 앱 비밀번호 |
-| `SMTP_FROM` | `sy-universe <qorbaxk97@gmail.com>` |
 | `CONTACT_TO_EMAIL` | `qorbaxk97@gmail.com` |
+| `RESEND_API_KEY` | Resend 대시보드 API Key |
+| `RESEND_FROM` | `Portfolio <onboarding@resend.dev>` |
+
+Resend 무료 키: [resend.com](https://resend.com) → API Keys.  
+`onboarding@resend.dev`로 보낼 때는 **수신 메일이 Resend 가입 이메일과 같아야** 합니다.
 
 5. **Create Web Service** → 배포 로그에서 Live URL 확인  
    예: `https://sy-universe-api.onrender.com`
