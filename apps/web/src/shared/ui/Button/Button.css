@@ -1,0 +1,36 @@
+.ui-button {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.ui-button:hover {
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.ui-button--ghost {
+  border-color: var(--line);
+}
+
+.ui-button--outline {
+  border-color: rgba(232, 184, 109, 0.45);
+  color: var(--accent);
+}
+
+.ui-button--outline:hover {
+  background: var(--accent);
+  color: #14110c;
+}
+
+.ui-button--accent {
+  background: var(--accent);
+  color: #14110c;
+}

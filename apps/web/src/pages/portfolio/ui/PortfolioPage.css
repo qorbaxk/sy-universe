@@ -1,0 +1,49 @@
+.portfolio-page {
+  --detail-panel-width: min(520px, 44vw);
+  --bottom-sheet-height: min(52vh, 520px);
+  --tour-offset: 18px;
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: #02050c;
+}
+
+.portfolio-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* PC/태블릿: 그래프는 전체 유지, 패널은 위에 플로팅 */
+/* (스테이지를 잘라내면 우주가 두 영역으로 나뉘어 보임) */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1024px) {
+  .portfolio-page {
+    --detail-panel-width: min(440px, 46vw);
+  }
+}
+
+/* 모바일 바텀시트: 그래프 하단만 살짝 비워 시트를 받침 */
+@media (max-width: 768px) {
+  .portfolio-page {
+    --tour-offset: 12px;
+  }
+
+  .portfolio-page.is-panel-open .portfolio-stage {
+    bottom: var(--bottom-sheet-height);
+    transition: bottom 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
