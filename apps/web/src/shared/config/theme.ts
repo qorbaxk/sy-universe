@@ -1,3 +1,7 @@
+/**
+ * @alias 테마 토큰
+ * @description Tailwind 외 Three/캔버스 등 JS에서 직접 참조하는 색·크기 토큰.
+ */
 export const theme = {
   colors: {
     bg: '#070b10',

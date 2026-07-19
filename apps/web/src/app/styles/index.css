@@ -1,47 +1,69 @@
-:root {
-  --bg: #070b10;
-  --ink: #f3efe6;
-  --muted: #9aa8b5;
-  --line: rgba(255, 255, 255, 0.08);
-  --accent: #e8b86d;
-  --accent-2: #7cdbd5;
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #070b10;
+  --color-ink: #f3efe6;
+  --color-muted: #9aa8b5;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-accent: #e8b86d;
+  --color-accent-2: #7cdbd5;
   --font-display: 'Syne', 'IBM Plex Sans KR', sans-serif;
   --font-body: 'IBM Plex Sans KR', sans-serif;
-  color: var(--ink);
-  background: var(--bg);
-  font-family: var(--font-body);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Tailwind preflight가 흰 배경으로 덮는 것 방지 */
+  html {
+    color-scheme: dark;
+    background: #02050c !important;
+  }
+
+  html,
+  body,
+  #root {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #02050c !important;
+  }
+
+  body {
+    min-height: 100vh;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  a {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  a {
+    color: inherit;
+  }
 }
 
-html,
-body,
-#root {
-  margin: 0;
-  width: 100%;
-  min-height: 100%;
-}
-
-body {
-  min-height: 100vh;
-  background: #02050c;
-}
-
-button,
-a {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-a {
-  color: inherit;
+@utility sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
