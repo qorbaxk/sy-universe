@@ -1,5 +1,9 @@
 import type { TourStep } from '@/entities/portfolio'
 import { Button } from '@/shared/ui/Button'
+import {
+  ProgressBar,
+  type ProgressBarVariant,
+} from '@/shared/ui/ProgressBar'
 
 type GraphTourControlsProps = {
   /**
@@ -38,6 +42,12 @@ type GraphTourControlsProps = {
    */
   isLast: boolean
 
+  /**
+   * @alias 진행바 스타일
+   * @description 기본값은 gradient(골드→민트).
+   */
+  progressVariant?: ProgressBarVariant
+
   onStart: () => void
   onStop: () => void
   onPrev: () => void
@@ -55,6 +65,7 @@ export function GraphTourControls({
   total,
   isFirst,
   isLast,
+  progressVariant = 'gradient',
   onStart,
   onStop,
   onPrev,
@@ -81,15 +92,13 @@ export function GraphTourControls({
   return (
     <div className="fixed bottom-5 left-5 z-40 w-[min(340px,calc(100vw-2rem))] space-y-3 rounded-2xl border border-white/10 bg-[#0b1118]/9 p-3.5 shadow-xl backdrop-blur-xl">
       <div className="space-y-1.5">
-        <span className="text-xs text-muted">
+        <span className="text-xs tracking-wider text-accent">
           {index + 1} / {total}
         </span>
-        <div className="h-1 overflow-hidden rounded-full bg-white/10">
-          <i
-            className="block h-full rounded-full bg-accent-2 transition-[width] duration-300"
-            style={{ width: `${((index + 1) / total) * 100}%` }}
-          />
-        </div>
+        <ProgressBar
+          value={total > 0 ? ((index + 1) / total) * 100 : 0}
+          variant={progressVariant}
+        />
       </div>
 
       <div>

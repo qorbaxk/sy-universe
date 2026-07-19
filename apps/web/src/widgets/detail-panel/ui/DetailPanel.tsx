@@ -43,7 +43,7 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
         <section className="space-y-3 text-sm leading-relaxed text-muted">
           <p className="text-base text-ink">{snapshot.profile.headline}</p>
           <p>{snapshot.profile.bio}</p>
-          <Badge>{experienceLabel}</Badge>
+          <Badge variant="accent">{experienceLabel}</Badge>
         </section>
       )}
 
@@ -70,7 +70,7 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
       {detail?.type === 'company' && (
         <section className="space-y-3 text-sm leading-relaxed text-muted">
           <p className="text-base text-ink">{detail.company.role}</p>
-          <Badge>
+          <Badge variant="accent">
             {formatCareerPeriod?.(detail.company.period)} ·{' '}
             {formatDuration?.(detail.company.period)}
           </Badge>

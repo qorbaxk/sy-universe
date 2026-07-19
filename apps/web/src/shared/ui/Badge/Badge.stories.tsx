@@ -11,4 +11,6 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Accent: Story = { args: { variant: 'accent' } }
+export const Soft: Story = { args: { variant: 'soft' } }
+export const Neutral: Story = { args: { variant: 'neutral' } }
