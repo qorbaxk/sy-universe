@@ -1,3 +1,7 @@
+/**
+ * @alias 천체 역할
+ * @description 노드 비주얼에 매핑하는 태양계 천체 종류.
+ */
 export type CelestialRole =
   | 'sun'
   | 'mercury'
@@ -10,18 +14,64 @@ export type CelestialRole =
   | 'neptune'
   | 'moon'
 
+/**
+ * @alias 천체 메타
+ * @description 3D/2D 노드를 그릴 때 쓰는 색·크기·고리 등 비주얼 정보.
+ */
 export type CelestialBody = {
+  /**
+   * @alias 역할
+   * @description sun/saturn 등 천체 역할.
+   */
   role: CelestialRole
+
+  /**
+   * @alias 한글 라벨
+   * @description 디버그/접근성용 천체 이름.
+   */
   label: string
+
+  /**
+   * @alias 색상
+   * @description 메인 행성 색 hex.
+   */
   color: string
+
+  /**
+   * @alias 크기
+   * @description 상대 반지름.
+   */
   size: number
+
+  /**
+   * @alias 고리 여부
+   * @description true면 고리를 그린다.
+   */
   hasRing: boolean
+
+  /**
+   * @alias 고리 기울기
+   * @description 라디안 단위 기울기.
+   */
   ringTilt?: number
+
+  /**
+   * @alias 위성 여부
+   * @description 위성 장식 여부(확장용).
+   */
   hasMoon: boolean
+
+  /**
+   * @alias 텍스처 종류
+   * @description Three 텍스처 생성 분기 키.
+   */
   texture: 'sun' | 'gas' | 'rocky' | 'ice' | 'earth'
 }
 
-/** 승연=태양, 나머지는 태양계 행성 톤 */
+/**
+ * @alias 노드별 천체 맵
+ * @description 승연=태양, 셀핏=토성 등 고정 매핑. 새 노드는 fallback 사용.
+ */
 export const celestialByNodeId: Record<string, CelestialBody> = {
   me: {
     role: 'sun',
@@ -108,6 +158,10 @@ export const celestialByNodeId: Record<string, CelestialBody> = {
   },
 }
 
+/**
+ * @alias 천체 조회
+ * @description 노드 ID에 대응하는 천체 메타. 없으면 소행성 fallback.
+ */
 export function getCelestialBody(nodeId: string): CelestialBody {
   return (
     celestialByNodeId[nodeId] ?? {

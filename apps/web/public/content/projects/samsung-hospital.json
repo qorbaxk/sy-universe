@@ -1,0 +1,17 @@
+{
+  "id": "samsung-hospital",
+  "companyId": "nextinnovation",
+  "company": "넥스트이노베이션",
+  "name": "강북삼성병원 건강검진 웹예약",
+  "period": { "start": "2023-06-28", "end": "2025-03-19" },
+  "summary": "건강검진 예약 과정을 웹에서 완료할 수 있도록 한 예약 시스템. 복잡한 병원 도메인 플로우를 사용자 기준으로 정리하는 것이 핵심이었습니다.",
+  "highlights": [
+    "예약 단계별 정보 입력·검증 흐름 구성",
+    "병원 서비스 특성에 맞는 상태/일정 UX 설계",
+    "운영·사용자 모두가 이해할 수 있는 화면 구조 정리"
+  ],
+  "stack": ["React", "TypeScript", "Form UX", "Domain Workflow"],
+  "status": "placeholder",
+  "featured": false,
+  "sortOrder": 1
+}

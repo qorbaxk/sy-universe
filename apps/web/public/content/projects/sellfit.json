@@ -1,0 +1,21 @@
+{
+  "id": "sellfit",
+  "companyId": "connectwave",
+  "company": "커넥트웨이브",
+  "name": "셀핏AI",
+  "period": { "start": "2025-05-20", "end": null },
+  "links": [
+    { "label": "소개 페이지", "href": "https://plto.com/additional/Sellfit/" },
+    { "label": "에디터", "href": "https://sellfit-ai.plto.com/editor" }
+  ],
+  "summary": "상품 정보와 키워드만으로 상세페이지를 생성하는 AI 에디터. AI 생성, 직접 제작, 템플릿 기반 제작 플로우를 하나의 제품 흐름으로 연결합니다.",
+  "highlights": [
+    "AI / 직접 제작 / MY 템플릿 진입 경로를 분리한 에디터 온보딩 UX",
+    "블록·요소 단위 편집이 가능한 상세페이지 제작 인터페이스",
+    "카테고리별 템플릿과 AI 이미지·텍스트 편집 경험 제공"
+  ],
+  "stack": ["React", "TypeScript", "Editor UI", "AI Product"],
+  "status": "placeholder",
+  "featured": true,
+  "sortOrder": 0
+}

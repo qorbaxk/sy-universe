@@ -1,0 +1,38 @@
+{
+  "profile": {
+    "name": "승연",
+    "nameEn": "Seungyeon",
+    "title": "Frontend Developer",
+    "headline": "제품의 흐름을 설계하고, 화면으로 설득하는 프론트엔드 개발자",
+    "bio": "커머스 AI 에디터와 병원 예약·어드민까지, 사용자가 실제로 쓰는 화면을 중심으로 일해왔습니다. 복잡한 플로우를 단순하게 보이게 만드는 일을 좋아합니다.",
+    "location": "Korea",
+    "email": "qorbaxk97@gmail.com",
+    "links": {
+      "github": "https://github.com/",
+      "resume": "#"
+    }
+  },
+  "companies": [
+    {
+      "id": "connectwave",
+      "name": "커넥트웨이브",
+      "role": "Frontend Developer",
+      "period": { "start": "2025-05-20", "end": null },
+      "summary": "플레이오토 셀핏AI에서 상품 상세페이지 AI 제작 경험을 고도화하는 프론트엔드 개발을 담당합니다.",
+      "sortOrder": 0
+    },
+    {
+      "id": "nextinnovation",
+      "name": "넥스트이노베이션",
+      "role": "Frontend Developer",
+      "period": { "start": "2023-06-28", "end": "2025-03-19" },
+      "summary": "강북삼성병원 건강검진 웹예약과 리즌마켓(현 두타온) 어드민 등 B2B/내부 운영 제품을 구현했습니다.",
+      "sortOrder": 1
+    }
+  ],
+  "skills": {
+    "core": ["React", "TypeScript", "JavaScript", "HTML/CSS"],
+    "product": ["Editor UX", "Admin UX", "Form/Workflow", "Design Collaboration"],
+    "tooling": ["Vite", "Git", "REST API", "GitHub Actions"]
+  }
+}

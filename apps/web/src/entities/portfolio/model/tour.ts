@@ -1,5 +1,32 @@
-/** 면접관 시선 기준 추천 관람 순서 */
-export const tourSteps = [
+/**
+ * @alias 투어 스텝
+ * @description 가이드 투어의 한 단계.
+ */
+export type TourStep = {
+  /**
+   * @alias 노드 ID
+   * @description 이 스텝에서 포커스할 그래프 노드.
+   */
+  id: string
+
+  /**
+   * @alias 제목
+   * @description 투어 카드 제목.
+   */
+  title: string
+
+  /**
+   * @alias 설명
+   * @description 투어 카드 본문.
+   */
+  description: string
+}
+
+/**
+ * @alias 기본 투어 스텝
+ * @description 면접관 시선 기준 추천 관람 순서. 프로젝트 추가 시 여기도 보강하면 된다.
+ */
+export const tourSteps: TourStep[] = [
   {
     id: 'me',
     title: '승연',
@@ -45,6 +72,4 @@ export const tourSteps = [
     title: 'Contact',
     description: '마지막은 연락처와 이력서입니다.',
   },
-] as const
-
-export type TourStep = (typeof tourSteps)[number]
+]
