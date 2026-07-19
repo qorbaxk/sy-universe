@@ -25,6 +25,68 @@ export interface ProjectLink {
 export type ProjectStatus = 'placeholder' | 'ready'
 
 /**
+ * @alias 기능 레이어
+ * @description 프론트 / 백엔드 / AI / 인프라 중 어디에 가까운지.
+ */
+export type FeatureLayer = 'frontend' | 'backend' | 'ai' | 'infra'
+
+/**
+ * @alias STAR 프레임
+ * @description 면접용 상황-과제-행동-결과.
+ */
+export interface FeatureStar {
+  situation: string
+  task: string
+  action: string
+  result: string
+}
+
+/**
+ * @alias 프로젝트 기능 카드
+ * @description 허브·위성 노드에 붙는 기능 단위 스토리.
+ */
+export interface ProjectFeature {
+  id: string
+  title: string
+  layer: FeatureLayer
+  star: FeatureStar
+  stack?: string[]
+}
+
+/**
+ * @alias 프로젝트 지표
+ * @description 공개 가능한 수치만. 추측 금지.
+ */
+export interface ProjectMetric {
+  label: string
+  value: string
+}
+
+/**
+ * @alias 프로젝트 미디어
+ * @description 캡처·데모 이미지. `src`는 public 기준 경로.
+ */
+export interface ProjectMedia {
+  /**
+   * @alias 이미지 경로
+   * @description 예: media/projects/sellfit-editor.png
+   */
+  src: string
+
+  /**
+   * @alias 대체 텍스트
+   * @description 접근성·SEO용 설명.
+   */
+  alt: string
+
+  /**
+   * @alias 캡션
+   * @description 이미지 아래 한 줄 설명.
+   */
+  caption?: string
+}
+
+/**
  * @alias 프로젝트
  * @description 포트폴리오에 노출할 개별 프로젝트 문서. JSON 파일 한 장 = 노드 하나.
  */
@@ -48,10 +110,22 @@ export interface ProjectDetail {
   company: string
 
   /**
+   * @alias 부모 프로젝트 ID
+   * @description 있으면 허브→위성 링크로 연결되고 company 링크는 생략한다.
+   */
+  parentId?: string
+
+  /**
    * @alias 프로젝트명
    * @description 화면에 표시할 프로젝트 이름.
    */
   name: string
+
+  /**
+   * @alias 본인 기여
+   * @description 팀 내 역할·책임 범위. 면접에서 말할 수 있는 수준으로.
+   */
+  role?: string
 
   /**
    * @alias 프로젝트 기간
@@ -72,10 +146,34 @@ export interface ProjectDetail {
   summary: string
 
   /**
+   * @alias 아키텍처 한 줄
+   * @description FE / Nest / Python / AWS 등 계층 요약.
+   */
+  architectureNote?: string
+
+  /**
    * @alias 하이라이트
    * @description 성과/역할 bullet 목록.
    */
   highlights: string[]
+
+  /**
+   * @alias 기능 스토리
+   * @description STAR 기반 기능 카드. 허브에는 보너스 기능, 위성에는 핵심 1~2개.
+   */
+  features?: ProjectFeature[]
+
+  /**
+   * @alias 화면 캡처
+   * @description 면접관이 바로 이해할 수 있는 제품 스크린샷.
+   */
+  media?: ProjectMedia[]
+
+  /**
+   * @alias 공개 지표
+   * @description 수치로 말할 수 있는 항목만.
+   */
+  metrics?: ProjectMetric[]
 
   /**
    * @alias 기술 스택

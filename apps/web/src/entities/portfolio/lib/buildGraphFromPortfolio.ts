@@ -75,23 +75,33 @@ export function buildGraphFromPortfolio(
 
   for (const project of projects) {
     const company = companies.find((item) => item.id === project.companyId)
+    const parent = project.parentId
+      ? projects.find((item) => item.id === project.parentId)
+      : undefined
+
     nodes.push({
       id: project.id,
       kind: 'project',
       label: project.name,
       subtitle: project.featured
         ? `${project.company} · Featured`
-        : (company?.name ?? project.company),
+        : parent
+          ? parent.name
+          : (company?.name ?? project.company),
       featured: project.featured,
     })
 
-    links.push({
-      source: 'me',
-      target: project.id,
-      highlight: Boolean(project.featured),
-    })
+    if (project.featured || !project.parentId) {
+      links.push({
+        source: 'me',
+        target: project.id,
+        highlight: Boolean(project.featured),
+      })
+    }
 
-    if (project.companyId) {
+    if (project.parentId) {
+      links.push({ source: project.parentId, target: project.id })
+    } else if (project.companyId) {
       links.push({ source: project.companyId, target: project.id })
     }
   }

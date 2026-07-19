@@ -1,3 +1,11 @@
 {
-  "ids": ["sellfit", "samsung-hospital", "reason-market"]
+  "ids": [
+    "sellfit",
+    "sellfit-editor",
+    "sellfit-export",
+    "sellfit-ai-gen",
+    "sellfit-guide-bot",
+    "samsung-hospital",
+    "reason-market"
+  ]
 }

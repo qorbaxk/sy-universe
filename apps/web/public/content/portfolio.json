@@ -4,7 +4,7 @@
     "nameEn": "Seungyeon",
     "title": "Frontend Developer",
     "headline": "제품의 흐름을 설계하고, 화면으로 설득하는 프론트엔드 개발자",
-    "bio": "커머스 AI 에디터와 병원 예약·어드민까지, 사용자가 실제로 쓰는 화면을 중심으로 일해왔습니다. 복잡한 플로우를 단순하게 보이게 만드는 일을 좋아합니다.",
+    "bio": "커머스 AI 에디터와 병원 예약·어드민까지, 사용자가 실제로 쓰는 화면을 중심으로 일해왔습니다. Nest·LangGraph까지 제품 단위로 밀어본 경험이 있어, 복잡한 플로우를 단순하게 보이게 만드는 일을 좋아합니다.",
     "location": "Korea",
     "email": "qorbaxk97@gmail.com",
     "links": {
@@ -31,8 +31,31 @@
     }
   ],
   "skills": {
-    "core": ["React", "TypeScript", "JavaScript", "HTML/CSS"],
-    "product": ["Editor UX", "Admin UX", "Form/Workflow", "Design Collaboration"],
-    "tooling": ["Vite", "Git", "REST API", "GitHub Actions"]
+    "core": [
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "HTML/CSS",
+      "Zustand",
+      "TanStack Query",
+      "NestJS"
+    ],
+    "product": [
+      "Canvas Editor",
+      "Streaming Chat UX",
+      "Admin UX",
+      "Form/Workflow",
+      "Design Collaboration"
+    ],
+    "tooling": [
+      "Vite",
+      "Git",
+      "REST API",
+      "GitHub Actions",
+      "LangGraph",
+      "AWS Bedrock",
+      "Redis",
+      "FastAPI"
+    ]
   }
 }

@@ -7,24 +7,35 @@
 - Role: Frontend Developer
 - Email: qorbaxk97@gmail.com
 - Location: Korea
-- Focus: React, TypeScript, product UI, editor UX, admin UX
+- Focus: React, TypeScript, product UI, canvas editor UX, NestJS, LangGraph AI agents
 
 ## Experience
 - Connectwave (커넥트웨이브): Frontend Developer, 2025-05-20 — present
-  - Sellfit AI product detail page AI editor experience
+  - Sellfit AI: AI ecommerce content builder (editor, export, AI generation, guide chatbot)
 - Next Innovation (넥스트이노베이션): Frontend Developer, 2023-06-28 — 2025-03-19
   - Kangbuk Samsung Hospital health checkup web booking
   - Reason Market (now DutAon) admin
 
-## Featured projects
-- Sellfit AI: AI editor that generates product detail pages from info/keywords
+## Sellfit AI (featured hub + satellites)
+- Hub sellfit: AI ecommerce detail-page builder. Stack spans React/Zustand/TanStack Query, NestJS, FastAPI/LangGraph, AWS Bedrock, Redis, ECS.
+- Satellite sellfit-editor: Custom canvas editor with block/component stores, drag, multi-select, undo/redo.
+- Satellite sellfit-export: html2canvas high-quality image export with compression, GIF/ZIP handling.
+- Satellite sellfit-ai-gen: End-to-end AI description generation (FE UI + Nest Bedrock chaining + keyword agent).
+- Satellite sellfit-guide-bot: RAG guide chatbot with citations, session history, streaming UI.
+- Bonus on hub: skin-maker LangGraph agent, image rembg/SSIM pipeline, admin billing/prompt tools.
+
+## Other projects
 - Kangbuk Samsung Hospital booking: domain-heavy web reservation flow
 - Reason Market admin: commerce operations admin UI
 
 ## Skills
-- Core: React, TypeScript, JavaScript, HTML/CSS
-- Product: Editor UX, Admin UX, Form/Workflow, Design Collaboration
-- Tooling: Vite, Git, REST API, GitHub Actions
+- Core: React, TypeScript, JavaScript, HTML/CSS, Zustand, TanStack Query, NestJS
+- Product: Canvas Editor, Streaming Chat UX, Admin UX, Form/Workflow
+- Tooling: Vite, Git, REST API, GitHub Actions, LangGraph, AWS Bedrock, Redis, FastAPI
+
+## Live demos on this site
+- Contact form → Nest POST /api/contact (SQLite)
+- Portfolio Guide chat → Nest SSE BFF → Python FastAPI keyword RAG over this content
 
 ## Contact
 - Email: qorbaxk97@gmail.com

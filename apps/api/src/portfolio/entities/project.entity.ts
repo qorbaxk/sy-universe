@@ -11,8 +11,14 @@ export class ProjectEntity {
   @Column()
   company!: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  parentId?: string | null;
+
   @Column()
   name!: string;
+
+  @Column({ type: 'text', nullable: true })
+  role?: string | null;
 
   @Column({ type: 'simple-json', nullable: true })
   period?: { start: string; end?: string | null };
@@ -20,8 +26,31 @@ export class ProjectEntity {
   @Column({ type: 'text' })
   summary!: string;
 
+  @Column({ type: 'text', nullable: true })
+  architectureNote?: string | null;
+
   @Column({ type: 'simple-json' })
   highlights!: string[];
+
+  @Column({ type: 'simple-json', nullable: true })
+  features?: Array<{
+    id: string;
+    title: string;
+    layer: 'frontend' | 'backend' | 'ai' | 'infra';
+    star: {
+      situation: string;
+      task: string;
+      action: string;
+      result: string;
+    };
+    stack?: string[];
+  }> | null;
+
+  @Column({ type: 'simple-json', nullable: true })
+  metrics?: Array<{ label: string; value: string }> | null;
+
+  @Column({ type: 'simple-json', nullable: true })
+  media?: Array<{ src: string; alt: string; caption?: string }> | null;
 
   @Column({ type: 'simple-json' })
   stack!: string[];
