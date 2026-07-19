@@ -2,21 +2,384 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#02050c" />
+    <meta name="color-scheme" content="dark" />
+
+    <title>승연 · Frontend Developer Portfolio | React · TypeScript</title>
     <meta
       name="description"
-      content="Frontend Developer 승연의 포트폴리오 — 경력, 프로젝트, 스킬을 그래프처럼 탐색하세요."
+      content="Frontend Developer 승연 포트폴리오. 커넥트웨이브·넥스트이노베이션 경력, 셀핏AI·강북삼성병원 예약·리즌마켓 어드민. React·TypeScript 중심의 제품 UI 경험."
     />
+    <meta
+      name="keywords"
+      content="프론트엔드 개발자, Frontend Developer, React, TypeScript, 포트폴리오, 승연, 셀핏AI, 커넥트웨이브, 넥스트이노베이션"
+    />
+    <meta name="author" content="승연 (Seungyeon)" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://qorbaxk.github.io/sy-universe/" />
+    <link
+      rel="alternate"
+      type="text/plain"
+      title="llms.txt"
+      href="https://qorbaxk.github.io/sy-universe/llms.txt"
+    />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="sy-universe" />
+    <meta
+      property="og:title"
+      content="승연 · Frontend Developer Portfolio"
+    />
+    <meta
+      property="og:description"
+      content="제품의 흐름을 설계하고, 화면으로 설득하는 프론트엔드 개발자 승연. 셀핏AI, 병원 예약, 커머스 어드민 경험."
+    />
+    <meta property="og:url" content="https://qorbaxk.github.io/sy-universe/" />
+    <meta
+      property="og:image"
+      content="https://qorbaxk.github.io/sy-universe/media/space-bg.png"
+    />
+    <meta property="og:image:alt" content="sy-universe 포트폴리오 우주 배경" />
+    <meta property="profile:first_name" content="승연" />
+    <meta property="profile:username" content="qorbaxk" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="승연 · Frontend Developer Portfolio" />
+    <meta
+      name="twitter:description"
+      content="React·TypeScript 프론트엔드 개발자 승연의 경력·프로젝트 포트폴리오."
+    />
+    <meta
+      name="twitter:image"
+      content="https://qorbaxk.github.io/sy-universe/media/space-bg.png"
+    />
+
+    <!-- ProfilePage + Person -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "name": "승연 · Frontend Developer Portfolio",
+        "url": "https://qorbaxk.github.io/sy-universe/",
+        "inLanguage": "ko-KR",
+        "dateModified": "2026-07-19",
+        "mainEntity": {
+          "@type": "Person",
+          "@id": "https://qorbaxk.github.io/sy-universe/#person",
+          "name": "승연",
+          "alternateName": ["Seungyeon", "qorbaxk"],
+          "jobTitle": "Frontend Developer",
+          "email": "mailto:qorbaxk97@gmail.com",
+          "url": "https://qorbaxk.github.io/sy-universe/",
+          "image": "https://qorbaxk.github.io/sy-universe/media/space-bg.png",
+          "description": "제품의 흐름을 설계하고, 화면으로 설득하는 프론트엔드 개발자. 커머스 AI 에디터와 병원 예약·어드민 등 사용자가 실제로 쓰는 화면을 중심으로 일해왔습니다.",
+          "knowsAbout": [
+            "React",
+            "TypeScript",
+            "JavaScript",
+            "HTML/CSS",
+            "Editor UX",
+            "Admin UX",
+            "Form/Workflow",
+            "Vite",
+            "REST API",
+            "GitHub Actions"
+          ],
+          "hasOccupation": {
+            "@type": "Occupation",
+            "name": "Frontend Developer",
+            "occupationLocation": {
+              "@type": "Country",
+              "name": "Korea"
+            },
+            "skills": "React, TypeScript, Editor UX, Admin UX"
+          },
+          "worksFor": {
+            "@type": "Organization",
+            "name": "커넥트웨이브"
+          },
+          "alumniOf": {
+            "@type": "Organization",
+            "name": "넥스트이노베이션"
+          }
+        }
+      }
+    </script>
+
+    <!-- WebSite -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "sy-universe",
+        "url": "https://qorbaxk.github.io/sy-universe/",
+        "description": "Frontend Developer 승연의 옵시디언형 3D 포트폴리오",
+        "inLanguage": "ko-KR",
+        "author": {
+          "@id": "https://qorbaxk.github.io/sy-universe/#person"
+        }
+      }
+    </script>
+
+    <!-- 프로젝트 ItemList (AEO/GEO용 사실 목록) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "승연 주요 프로젝트",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "CreativeWork",
+              "name": "셀핏AI",
+              "description": "상품 정보와 키워드만으로 상세페이지를 생성하는 AI 에디터. 커넥트웨이브.",
+              "url": "https://plto.com/additional/Sellfit/",
+              "keywords": "React, TypeScript, Editor UI, AI Product"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "CreativeWork",
+              "name": "강북삼성병원 건강검진 웹예약",
+              "description": "건강검진 예약 과정을 웹에서 완료하는 예약 시스템. 넥스트이노베이션.",
+              "keywords": "React, TypeScript, Form UX, Domain Workflow"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "CreativeWork",
+              "name": "리즌마켓 (현 두타온) 어드민",
+              "description": "커머스 운영을 위한 어드민 화면. 넥스트이노베이션.",
+              "keywords": "React, TypeScript, Admin UI, Commerce"
+            }
+          }
+        ]
+      }
+    </script>
+
+    <!-- FAQ — 답변 엔진(AEO)이 인용하기 쉬운 Q&A -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "승연은 어떤 개발자인가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Frontend Developer로, React와 TypeScript를 중심으로 제품 UI를 만듭니다. 복잡한 플로우를 단순하게 보이게 만드는 일을 좋아합니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "현재 재직 중인 회사는 어디인가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "2025년 5월부터 커넥트웨이브에서 Frontend Developer로 재직 중이며, 셀핏AI 상품 상세페이지 AI 제작 경험을 담당합니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "이전에 다닌 회사와 주요 프로젝트는 무엇인가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "넥스트이노베이션(2023.06–2025.03)에서 강북삼성병원 건강검진 웹예약과 리즌마켓(현 두타온) 어드민을 구현했습니다. Featured 프로젝트는 커넥트웨이브의 셀핏AI입니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "연락은 어떻게 하나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "이메일 qorbaxk97@gmail.com 으로 이직·협업·포트폴리오 관련 문의를 받을 수 있습니다."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <style>
+      html {
+        color-scheme: dark;
+        background: #02050c !important;
+      }
+      html,
+      body,
+      #root {
+        margin: 0;
+        min-height: 100%;
+        background: #02050c !important;
+        color: #f3efe6;
+      }
+      #boot-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483647;
+        display: grid;
+        place-items: center;
+        background: #02050c !important;
+        color: #9aa8b5;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        transition: opacity 0.4s ease;
+      }
+      #boot-splash.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #boot-splash .boot-spinner {
+        width: 28px;
+        height: 28px;
+        margin: 0 auto 12px;
+        border-radius: 999px;
+        border: 2px solid rgba(255, 255, 255, 0.12);
+        border-top-color: #7cdbd5;
+        animation: boot-spin 0.8s linear infinite;
+      }
+      @keyframes boot-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .seo-content {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+
+    <link rel="preload" href="./media/space-bg.png" as="image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
-    <title>승연 · Frontend Developer</title>
   </head>
   <body>
+    <div id="boot-splash" aria-live="polite" aria-busy="true">
+      <div>
+        <div class="boot-spinner" aria-hidden="true"></div>
+        우주로 들어가는 중…
+      </div>
+    </div>
+
+    <!-- 크롤러·답변엔진용 사실 텍스트 (시각적으로만 숨김, display:none/aria-hidden 미사용) -->
+    <section class="seo-content">
+      <h1>승연 · Frontend Developer Portfolio</h1>
+      <p>
+        제품의 흐름을 설계하고, 화면으로 설득하는 프론트엔드 개발자입니다.
+        React, TypeScript를 중심으로 커머스 AI 에디터와 병원 예약·어드민
+        제품을 만들어 왔습니다. 복잡한 플로우를 단순하게 보이게 만드는 일을
+        좋아합니다.
+      </p>
+
+      <h2>경력</h2>
+      <ul>
+        <li>
+          커넥트웨이브 — Frontend Developer (2025-05-20 — 현재). 플레이오토
+          셀핏AI에서 상품 상세페이지 AI 제작 경험을 고도화하는 프론트엔드
+          개발을 담당합니다.
+        </li>
+        <li>
+          넥스트이노베이션 — Frontend Developer (2023-06-28 — 2025-03-19).
+          강북삼성병원 건강검진 웹예약과 리즌마켓(현 두타온) 어드민 등
+          B2B/내부 운영 제품을 구현했습니다.
+        </li>
+      </ul>
+
+      <h2>주요 프로젝트</h2>
+      <article>
+        <h3>셀핏AI</h3>
+        <p>
+          상품 정보와 키워드만으로 상세페이지를 생성하는 AI 에디터. AI 생성,
+          직접 제작, 템플릿 기반 제작 플로우를 하나의 제품 흐름으로 연결합니다.
+          스택: React, TypeScript, Editor UI, AI Product. 회사: 커넥트웨이브.
+        </p>
+      </article>
+      <article>
+        <h3>강북삼성병원 건강검진 웹예약</h3>
+        <p>
+          건강검진 예약 과정을 웹에서 완료할 수 있도록 한 예약 시스템. 복잡한
+          병원 도메인 플로우를 사용자 기준으로 정리했습니다. 스택: React,
+          TypeScript, Form UX. 회사: 넥스트이노베이션.
+        </p>
+      </article>
+      <article>
+        <h3>리즌마켓 (현 두타온) 어드민</h3>
+        <p>
+          커머스 운영을 위한 어드민 화면. 목록·필터·상세 중심의 실무형 관리
+          UX. 스택: React, TypeScript, Admin UI, Commerce. 회사:
+          넥스트이노베이션.
+        </p>
+      </article>
+
+      <h2>스킬</h2>
+      <p>
+        Core: React, TypeScript, JavaScript, HTML/CSS. Product: Editor UX,
+        Admin UX, Form/Workflow, Design Collaboration. Tooling: Vite, Git, REST
+        API, GitHub Actions.
+      </p>
+
+      <h2>자주 묻는 질문</h2>
+      <h3>승연은 어떤 개발자인가요?</h3>
+      <p>
+        Frontend Developer로 React와 TypeScript를 중심으로 제품 UI를 만듭니다.
+      </p>
+      <h3>현재 재직 중인 회사는?</h3>
+      <p>커넥트웨이브 (2025년 5월 — 현재).</p>
+      <h3>대표 프로젝트는?</h3>
+      <p>셀핏AI (Featured), 강북삼성병원 웹예약, 리즌마켓 어드민.</p>
+      <h3>연락 방법</h3>
+      <p>
+        <a href="mailto:qorbaxk97@gmail.com">qorbaxk97@gmail.com</a>
+      </p>
+    </section>
+
+    <noscript>
+      <main
+        style="
+          max-width: 40rem;
+          margin: 2rem auto;
+          padding: 1rem;
+          color: #f3efe6;
+          font-family: system-ui, sans-serif;
+          background: #02050c;
+        "
+      >
+        <h1>승연 · Frontend Developer</h1>
+        <p>
+          JavaScript가 꺼져 있어도 핵심 정보는 볼 수 있습니다. 연락:
+          <a href="mailto:qorbaxk97@gmail.com" style="color: #7cdbd5"
+            >qorbaxk97@gmail.com</a
+          >
+        </p>
+        <h2>경력</h2>
+        <ul>
+          <li>커넥트웨이브 Frontend Developer (2025.05 — 현재)</li>
+          <li>넥스트이노베이션 Frontend Developer (2023.06 — 2025.03)</li>
+        </ul>
+      </main>
+    </noscript>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

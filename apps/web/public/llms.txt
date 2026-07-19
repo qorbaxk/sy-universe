@@ -1,0 +1,31 @@
+# sy-universe
+
+> Frontend Developer 승연의 포트폴리오 사이트 (https://qorbaxk.github.io/sy-universe/)
+
+## Person
+- Name: 승연 (Seungyeon, qorbaxk)
+- Role: Frontend Developer
+- Email: qorbaxk97@gmail.com
+- Location: Korea
+- Focus: React, TypeScript, product UI, editor UX, admin UX
+
+## Experience
+- Connectwave (커넥트웨이브): Frontend Developer, 2025-05-20 — present
+  - Sellfit AI product detail page AI editor experience
+- Next Innovation (넥스트이노베이션): Frontend Developer, 2023-06-28 — 2025-03-19
+  - Kangbuk Samsung Hospital health checkup web booking
+  - Reason Market (now DutAon) admin
+
+## Featured projects
+- Sellfit AI: AI editor that generates product detail pages from info/keywords
+- Kangbuk Samsung Hospital booking: domain-heavy web reservation flow
+- Reason Market admin: commerce operations admin UI
+
+## Skills
+- Core: React, TypeScript, JavaScript, HTML/CSS
+- Product: Editor UX, Admin UX, Form/Workflow, Design Collaboration
+- Tooling: Vite, Git, REST API, GitHub Actions
+
+## Contact
+- Email: qorbaxk97@gmail.com
+- Site: https://qorbaxk.github.io/sy-universe/
