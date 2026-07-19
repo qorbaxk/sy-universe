@@ -32,6 +32,9 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          # Render API 주소. 예: https://sy-universe-api.onrender.com/api
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: npm run build -w web
 
       - name: Upload artifact

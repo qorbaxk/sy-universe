@@ -1,0 +1,30 @@
+# Render Blueprint — Dashboard에서 "New Blueprint"로 이 파일을 연결해도 되고,
+# 수동으로 Web Service를 만들어도 됩니다. (아래 README 배포 섹션 참고)
+services:
+  - type: web
+    name: sy-universe-api
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm ci --include=dev && npm rebuild better-sqlite3 && npm run build -w api
+    startCommand: npm run start:prod -w api
+    healthCheckPath: /api
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "465"
+      - key: SMTP_SECURE
+        value: "true"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: CONTACT_TO_EMAIL
+        sync: false

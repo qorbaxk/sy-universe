@@ -15,4 +15,8 @@ apps/api/dist
 apps/api/data
 apps/web/dist
 apps/web/storybook-static
+apps/ai/.venv
+apps/ai/__pycache__
+apps/ai/**/__pycache__
 *.sqlite
+*.pyc
