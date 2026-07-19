@@ -28,6 +28,13 @@ type PanelProps = {
    * @description 패널 스크롤 영역 콘텐츠.
    */
   children: ReactNode
+
+  /**
+   * @alias 닫기 라벨
+   * @description 기본값은 '닫기'. 가이드 중에는 '가이드 종료' 등.
+   */
+  closeLabel?: string
+
   className?: string
 }
 
@@ -40,6 +47,7 @@ export function Panel({
   onClose,
   header,
   children,
+  closeLabel = '닫기',
   className,
 }: PanelProps) {
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -59,7 +67,7 @@ export function Panel({
             'pointer-events-auto fixed z-40 flex flex-col border border-white/10 bg-[#0b1118]/92 text-ink shadow-2xl backdrop-blur-xl',
             isMobile
               ? 'inset-x-0 bottom-0 max-h-[78vh] rounded-t-3xl'
-              : 'top-20 right-5 bottom-6 w-[min(380px,calc(100vw-2rem))] rounded-2xl',
+              : 'top-20 right-5 bottom-6 w-[min(520px,calc(100vw-2.5rem))] rounded-2xl',
             className,
           )}
           initial={
@@ -104,11 +112,11 @@ export function Panel({
                 className="absolute top-0 right-0"
                 variant="ghost"
                 type="button"
-                aria-label="닫기"
+                aria-label={closeLabel}
                 onClick={handleClose}
                 onPointerDown={(event) => event.stopPropagation()}
               >
-                닫기
+                {closeLabel}
               </Button>
               <div className="space-y-1 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-ink">
                 {header}
@@ -116,7 +124,7 @@ export function Panel({
             </div>
           </div>
 
-          <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+          <div className="panel-scroll min-h-0 flex-1 overflow-y-auto px-5 py-5">
             {children}
           </div>
         </motion.aside>

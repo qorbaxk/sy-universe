@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Profile } from '@/entities/portfolio'
 import { cn } from '@/shared/lib/cn'
+import { Button } from '@/shared/ui/Button'
 
 /**
  * @alias Contact CTA 톤
@@ -20,6 +21,24 @@ type AppTopbarProps = {
    * @description 기본값은 accent(골드).
    */
   ctaVariant?: AppTopbarCtaVariant
+
+  /**
+   * @alias AI 가이드 열림
+   * @description 가이드 버튼 활성 표시.
+   */
+  guideOpen?: boolean
+
+  /**
+   * @alias AI 가이드 토글
+   * @description 탑바에서 가이드 패널을 연다.
+   */
+  onToggleGuide?: () => void
+
+  /**
+   * @alias Contact 클릭
+   * @description 있으면 메일 대신 핸들러(예: contact 노드 이동).
+   */
+  onContactClick?: () => void
 }
 
 const ctaClass: Record<AppTopbarCtaVariant, string> = {
@@ -31,15 +50,18 @@ const ctaClass: Record<AppTopbarCtaVariant, string> = {
 
 /**
  * @alias 앱 탑바
- * @description 브랜드·조작 힌트·Contact CTA.
+ * @description 브랜드·조작 힌트·AI 가이드·Contact CTA.
  */
 export function AppTopbar({
   profile,
   ctaVariant = 'accent',
+  guideOpen = false,
+  onToggleGuide,
+  onContactClick,
 }: AppTopbarProps) {
   return (
     <motion.header
-      className="pointer-events-none fixed inset-x-0 top-0 z-30 flex items-center justify-between gap-4 px-5 py-4 pt-[calc(0.875rem+env(safe-area-inset-top,0px))]"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] flex items-center justify-between gap-4 px-5 py-4 pt-[calc(0.875rem+env(safe-area-inset-top,0px))]"
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
@@ -61,12 +83,36 @@ export function AppTopbar({
         드래그로 회전 · 스크롤 줌 · 노드를 잡아 옮겨보세요
       </p>
 
-      <a
-        className={cn('pointer-events-auto no-underline', ctaClass[ctaVariant])}
-        href={`mailto:${profile.email}`}
-      >
-        Contact
-      </a>
+      <div className="pointer-events-auto flex items-center gap-2">
+        {onToggleGuide && (
+          <Button
+            type="button"
+            variant={guideOpen ? 'accent' : 'outline'}
+            onClick={onToggleGuide}
+            className="rounded-full px-4 py-2.5"
+            aria-expanded={guideOpen}
+            aria-controls="portfolio-guide-chat"
+          >
+            AI 가이드
+          </Button>
+        )}
+        {onContactClick ? (
+          <button
+            type="button"
+            className={cn('no-underline', ctaClass[ctaVariant])}
+            onClick={onContactClick}
+          >
+            Contact
+          </button>
+        ) : (
+          <a
+            className={cn('no-underline', ctaClass[ctaVariant])}
+            href={`mailto:${profile.email}`}
+          >
+            Contact
+          </a>
+        )}
+      </div>
     </motion.header>
   )
 }

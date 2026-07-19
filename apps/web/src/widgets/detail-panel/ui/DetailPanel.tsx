@@ -6,6 +6,10 @@ import { ChipRow } from '@/shared/ui/ChipRow'
 import { Eyebrow } from '@/shared/ui/Eyebrow'
 import { Panel } from '@/shared/ui/Panel'
 import { useDetailPanelModel } from '../hooks/useDetailPanelModel'
+import { ContactForm } from './ContactForm'
+import { ProjectClusterNav } from './ProjectClusterNav'
+import { ProjectFeatures } from './ProjectFeatures'
+import { ProjectMediaGallery } from './ProjectMediaGallery'
 
 type DetailPanelProps = {
   /**
@@ -25,20 +29,43 @@ type DetailPanelProps = {
    * @description 패널 닫기 핸들러.
    */
   onClose: () => void
+
+  /**
+   * @alias 관련 노드 이동
+   * @description 허브↔위성 점프 시 선택+포커스.
+   */
+  onNavigateNode?: (nodeId: string) => void
+
+  /**
+   * @alias 가이드 진행 중
+   * @description true면 닫기 버튼이 가이드 종료로 동작·표기된다.
+   */
+  tourActive?: boolean
 }
 
 /**
  * @alias 디테일 패널
  * @description 선택 노드의 상세 정보를 보여준다. UI만 담당.
  */
-export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
+export function DetailPanel({
+  snapshot,
+  node,
+  onClose,
+  onNavigateNode,
+  tourActive = false,
+}: DetailPanelProps) {
   const { detail, experienceLabel, formatCareerPeriod, formatDuration } =
     useDetailPanelModel(snapshot, node)
 
   const header = buildHeader(snapshot, node, detail)
 
   return (
-    <Panel open={Boolean(node && detail)} onClose={onClose} header={header}>
+    <Panel
+      open={Boolean(node && detail)}
+      onClose={onClose}
+      header={header}
+      closeLabel={tourActive ? '가이드 종료' : '닫기'}
+    >
       {detail?.type === 'me' && snapshot && (
         <section className="space-y-3 text-sm leading-relaxed text-muted">
           <p className="text-base text-ink">{snapshot.profile.headline}</p>
@@ -79,33 +106,72 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
       )}
 
       {detail?.type === 'project' && (
-        <section className="space-y-3 text-sm leading-relaxed text-muted">
-          <p className="text-base text-ink">{detail.project.summary}</p>
+        <section className="space-y-4 text-sm leading-relaxed text-muted">
+          {snapshot && onNavigateNode && (
+            <ProjectClusterNav
+              project={detail.project}
+              projects={snapshot.projects}
+              onNavigate={onNavigateNode}
+            />
+          )}
+          {detail.project.media && detail.project.media.length > 0 && (
+            <ProjectMediaGallery media={detail.project.media} />
+          )}
+          <p className="text-base leading-relaxed text-ink">
+            {detail.project.summary}
+          </p>
+          {detail.project.role && (
+            <div className="space-y-1">
+              <h3 className="text-[0.92rem] font-semibold text-accent-2">
+                내가 한 일
+              </h3>
+              <p className="rounded-lg border border-accent/20 bg-accent/5 px-3 py-2.5 text-xs leading-relaxed text-accent">
+                {detail.project.role}
+              </p>
+            </div>
+          )}
+          {detail.project.architectureNote && (
+            <div className="space-y-1">
+              <h3 className="text-[0.92rem] font-semibold text-accent-2">
+                구성
+              </h3>
+              <p className="text-xs leading-relaxed">
+                {detail.project.architectureNote}
+              </p>
+            </div>
+          )}
           {detail.project.status === 'placeholder' && (
             <p className="rounded-lg border border-accent/20 bg-accent/5 px-3 py-2 text-xs text-accent">
               역할·성과 상세는 이후 프로젝트 자료를 보고 보강 예정입니다.
             </p>
           )}
-          <h3 className="pt-1 text-[0.92rem] font-semibold text-accent-2">
-            Highlights
-          </h3>
-          <ul className="list-disc space-y-1 pl-5">
-            {detail.project.highlights.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <h3 className="pt-1 text-[0.92rem] font-semibold text-accent-2">
-            Stack
-          </h3>
-          <ChipRow>
-            {detail.project.stack.map((item) => (
-              <Chip key={item}>{item}</Chip>
-            ))}
-          </ChipRow>
+          <div className="space-y-2">
+            <h3 className="text-[0.92rem] font-semibold text-accent-2">
+              한눈에 보기
+            </h3>
+            <ul className="list-disc space-y-1.5 pl-5">
+              {detail.project.highlights.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          {detail.project.features && detail.project.features.length > 0 && (
+            <ProjectFeatures features={detail.project.features} />
+          )}
+          <div className="space-y-2">
+            <h3 className="text-[0.92rem] font-semibold text-accent-2">
+              사용한 기술
+            </h3>
+            <ChipRow>
+              {detail.project.stack.map((item) => (
+                <Chip key={item}>{item}</Chip>
+              ))}
+            </ChipRow>
+          </div>
           {detail.project.links && detail.project.links.length > 0 && (
-            <>
-              <h3 className="pt-1 text-[0.92rem] font-semibold text-accent-2">
-                Links
+            <div className="space-y-2">
+              <h3 className="text-[0.92rem] font-semibold text-accent-2">
+                관련 링크
               </h3>
               <ChipRow>
                 {detail.project.links.map((link) => (
@@ -120,7 +186,7 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
                   </a>
                 ))}
               </ChipRow>
-            </>
+            </div>
           )}
         </section>
       )}
@@ -152,7 +218,7 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
       )}
 
       {detail?.type === 'contact' && snapshot && (
-        <section className="space-y-3 text-sm leading-relaxed text-muted">
+        <section className="space-y-4 text-sm leading-relaxed text-muted">
           <p className="text-base text-ink">
             이직 제안, 협업, 포트폴리오 관련 문의 환영합니다.
           </p>
@@ -178,6 +244,12 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
               Resume
             </a>
           </ChipRow>
+          <div className="space-y-2">
+            <h3 className="text-[0.92rem] font-semibold text-accent-2">
+              메시지 보내기
+            </h3>
+            <ContactForm />
+          </div>
         </section>
       )}
     </Panel>
@@ -216,9 +288,14 @@ function buildHeader(
     )
   }
   if (detail.type === 'project') {
+    const parent = detail.project.parentId
+      ? snapshot.projects.find((item) => item.id === detail.project.parentId)
+      : undefined
     return (
       <>
-        <Eyebrow variant="accent">{detail.project.company}</Eyebrow>
+        <Eyebrow variant="accent">
+          {parent ? parent.name : detail.project.company}
+        </Eyebrow>
         <h2>{detail.project.name}</h2>
       </>
     )

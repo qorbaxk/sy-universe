@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getNodeById, tourSteps, usePortfolioQuery } from '@/entities/portfolio'
+import { GuideChatPanel } from '@/features/guide-chat'
 import { GraphTourControls, TOUR_TOTAL, useTourStore } from '@/features/graph-tour'
 import {
   useFocusStore,
@@ -23,6 +24,7 @@ export function PortfolioPage() {
   const clearSelection = useSelectionStore((s) => s.clearSelection)
   const focusRequest = useFocusStore((s) => s.focusRequest)
   const focusNode = useFocusStore((s) => s.focusNode)
+  const [guideOpen, setGuideOpen] = useState(false)
 
   // primitive만 구독 — 객체 selector는 getSnapshot 무한루프를 만든다
   const tourActive = useTourStore((s) => s.active)
@@ -36,7 +38,6 @@ export function PortfolioPage() {
   const isFirst = tourIndex === 0
   const isLast = tourIndex === TOUR_TOTAL - 1
 
-  // 에러 시 스플래시 닫기 + 혹시 onReady가 안 오면 타임아웃 안전망
   useEffect(() => {
     if (isError) hideBootSplash()
   }, [isError])
@@ -76,9 +77,16 @@ export function PortfolioPage() {
       )}
     >
       <h1 className="sr-only">승연 · Frontend Developer Portfolio</h1>
-      {/* 우주 배경은 z-0, 그래프는 투명 캔버스로 그 위에 */}
       <SpaceBackdrop />
-      <AppTopbar profile={data.snapshot.profile} />
+      <AppTopbar
+        profile={data.snapshot.profile}
+        guideOpen={guideOpen}
+        onToggleGuide={() => setGuideOpen((value) => !value)}
+        onContactClick={() => {
+          setGuideOpen(false)
+          visitNode('contact')
+        }}
+      />
 
       <div className="fixed inset-0 z-[1] bg-transparent">
         <PortfolioGraph
@@ -104,10 +112,18 @@ export function PortfolioPage() {
       <DetailPanel
         snapshot={data.snapshot}
         node={selectedNode}
+        onNavigateNode={visitNode}
+        tourActive={tourActive}
         onClose={() => {
-          if (tourActive) return
+          if (tourActive) stopTour()
           clearSelection()
         }}
+      />
+
+      <GuideChatPanel
+        open={guideOpen}
+        onOpenChange={setGuideOpen}
+        detailPanelOpen={panelOpen}
       />
 
       <GraphTourControls

@@ -11,9 +11,12 @@ export { tourSteps } from './model/tour'
 export type { TourStep } from './model/tour'
 export { getDetailForNode, getNodeById } from './model/selectors'
 export type { NodeDetail } from './model/selectors'
+export { useSubmitContactMutation } from './api/usePortfolioMutation'
 export type {
   CompanyDetail,
   DateRange,
+  FeatureLayer,
+  FeatureStar,
   GraphData,
   GraphLink,
   GraphNode,
@@ -22,8 +25,11 @@ export type {
   Profile,
   ProfileLinks,
   ProjectDetail,
+  ProjectFeature,
   ProjectLink,
   ProjectManifest,
+  ProjectMedia,
+  ProjectMetric,
   ProjectStatus,
   Skills,
 } from './model/types'
