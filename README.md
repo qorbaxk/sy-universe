@@ -21,7 +21,8 @@ sy-universe/
 │   │   │           ├── samsung-hospital.json
 │   │   │           └── reason-market.json
 │   │   └── src/                      # 앱 코드 (아래 FSD 트리)
-│   └── api/                          # NestJS + SQLite (로컬/서버용)
+│   ├── api/                          # NestJS + SQLite (portfolio / contact / chat BFF)
+│   └── ai/                           # FastAPI portfolio RAG guide (SSE)
 ├── .github/workflows/                # GitHub Pages 배포
 ├── package.json                      # workspaces 루트
 └── README.md
@@ -56,24 +57,25 @@ apps/web/src/
 ├── features/                         # 사용자 상호작용 + 클라이언트 상태
 │   ├── select-graph-node/model/      # Zustand: 선택 / 포커스
 │   ├── graph-tour/                  # Zustand: 투어 + 컨트롤 UI
+│   ├── guide-chat/                   # 포트폴리오 RAG 챗 UI (Nest SSE)
 │   └── enable-webgl/                 # Zustand: 2D 폴백 + 안내 배너
 │
 ├── entities/
 │   └── portfolio/
-│       ├── api/                      # React Query (fetch / usePortfolioQuery)
+│       ├── api/                      # React Query / contact / chat stream
 │       ├── lib/buildGraphFromPortfolio.ts  # JSON → 그래프 노드/링크
 │       └── model/                    # 타입(JSDoc) · celestial · tour · selectors
 │
 └── shared/
     ├── ui/                           # atoms (Button, Input, Modal…) — Storybook 대상
     ├── lib/                          # cn, date, three, webgl
-    └── config/theme.ts
+    └── config/api.ts                 # VITE_API_URL
 ```
 
 ### 데이터 흐름 (한 줄)
 
-`public/content/*.json` → `usePortfolioQuery` → `buildGraphFromPortfolio` → 그래프 위젯  
-선택/투어는 Zustand, 서버 데이터는 React Query.
+`public/content/*.json` (또는 Nest `GET /portfolio`) → `usePortfolioQuery` → `buildGraphFromPortfolio` → 그래프 위젯  
+문의는 `POST /contact`, 가이드 챗은 Nest SSE → FastAPI RAG.
 
 ---
 
@@ -112,19 +114,24 @@ apps/web/src/
   "id": "my-project",
   "companyId": "connectwave",
   "company": "커넥트웨이브",
+  "parentId": "sellfit",
   "name": "새 프로젝트",
+  "role": "본인 기여 한 줄",
   "period": { "start": "2026-02-01", "end": null },
   "summary": "요약",
+  "architectureNote": "FE · Nest · AI 계층 요약",
   "highlights": ["성과 1"],
+  "features": [],
   "stack": ["React", "TypeScript"],
   "links": [{ "label": "링크", "href": "https://..." }],
-  "status": "placeholder",
+  "status": "ready",
   "featured": false,
   "sortOrder": 3
 }
 ```
 
-- `companyId`는 **반드시** `portfolio.json`의 회사 `id`와 같아야 한다 (회사→프로젝트 링크)
+- `companyId`는 **반드시** `portfolio.json`의 회사 `id`와 같아야 한다
+- `parentId`가 있으면 허브→위성 링크로 연결되고 company 링크는 생략
 - `featured: true`면 `me`와 하이라이트 링크
 - (선택) 투어에 넣기: `src/entities/portfolio/model/tour.ts`
 - (선택) 행성 비주얼: `celestial.ts`
@@ -137,8 +144,12 @@ apps/web/src/
 ```text
 me
 ├── career
-│   ├── connectwave      ← companies[]
-│   │   └── sellfit      ← projects/*.json (companyId)
+│   ├── connectwave
+│   │   └── sellfit                 ← hub (featured)
+│   │       ├── sellfit-editor      ← parentId: sellfit
+│   │       ├── sellfit-export
+│   │       ├── sellfit-ai-gen
+│   │       └── sellfit-guide-bot
 │   └── nextinnovation
 │       ├── samsung-hospital
 │       └── reason-market
@@ -167,23 +178,30 @@ npm run storybook -w web
 # 프론트 (기본: 정적 content JSON → GitHub Pages와 동일)
 npm run dev -w web
 
-# Nest API 연동 시
-VITE_API_URL=http://localhost:3000/api npm run dev -w web
+# Nest API (portfolio SSOT sync + contact + chat BFF)
+npm run dev:api
 
-# API
-npm run start:dev -w api
+# Python RAG guide (port 8000)
+npm run dev:ai
+
+# Nest 연동 프론트
+cp apps/web/.env.example apps/web/.env
+npm run dev -w web
 
 # Storybook
 npm run storybook -w web
 ```
 
-API 스키마를 바꾼 뒤 로컬 SQLite를 갱신하려면:
+API:
 
-```bash
-rm -f apps/api/data/portfolio.sqlite
-```
+| Method | Path | 설명 |
+|--------|------|------|
+| GET | `/api/portfolio` | 콘텐츠 SSOT 스냅샷 (기동 시 JSON sync) |
+| POST | `/api/contact` | 문의 접수 → SMTP로 `CONTACT_TO_EMAIL`에 발송 |
+| POST | `/api/chat/stream` | AI 가이드 SSE 프록시 (`AI_SERVICE_URL`) |
 
-API: `GET /api/portfolio`
+문의 메일 설정: `apps/api/.env.example`을 복사해 SMTP 값을 채운 뒤 `npm run dev:api`  
+프론트는 `apps/web/.env`에 `VITE_API_URL=http://localhost:3000/api`
 
 ---
 
@@ -201,6 +219,43 @@ API: `GET /api/portfolio`
 
 ## 배포
 
+### 프론트 (GitHub Pages)
+
 - URL: https://qorbaxk.github.io/sy-universe/
 - `main` push → GitHub Actions가 `apps/web`을 Pages로 배포
 - Settings → Pages → Source = **GitHub Actions**
+- 문의 API 연동: repo **Settings → Secrets → Actions**에  
+  `VITE_API_URL` = `https://<render-서비스명>.onrender.com/api`  
+  (**끝에 `/api` 필수** — origin만 넣으면 문의/챗이 404납니다)
+
+### API (Render Free)
+
+1. [Render Dashboard](https://dashboard.render.com) → **New +** → **Web Service**
+2. GitHub 레포 `sy-universe` 연결 (Private이면 Render GitHub App 권한 허용)
+3. 설정:
+   - **Name**: `sy-universe-api` (원하는 이름)
+   - **Region**: Singapore (또는 가까운 곳)
+   - **Root Directory**: 비움 (모노레포 루트)
+   - **Runtime**: Node
+   - **Build Command**: `npm ci --include=dev && npm rebuild better-sqlite3 && npm run build -w api`
+   - **Start Command**: `npm run start:prod -w api`
+   - **Instance type**: **Free**
+4. **Environment**에 추가 (Gmail 앱 비밀번호 권장):
+
+| Key | 예시 |
+|-----|------|
+| `NODE_VERSION` | `20` |
+| `SMTP_HOST` | `smtp.gmail.com` |
+| `SMTP_PORT` | `465` |
+| `SMTP_SECURE` | `true` |
+| `SMTP_USER` | `qorbaxk97@gmail.com` |
+| `SMTP_PASS` | Gmail 앱 비밀번호 |
+| `SMTP_FROM` | `sy-universe <qorbaxk97@gmail.com>` |
+| `CONTACT_TO_EMAIL` | `qorbaxk97@gmail.com` |
+
+5. **Create Web Service** → 배포 로그에서 Live URL 확인  
+   예: `https://sy-universe-api.onrender.com`
+6. 브라우저에서 `https://…onrender.com/api` 열어보기 (첫 요청은 잠에서 깨어나느라 수십 초 걸릴 수 있음)
+7. GitHub Secret `VITE_API_URL`을 `https://…onrender.com/api`로 넣고 `main`에 push (또는 Actions 수동 실행)
+
+`render.yaml`을 쓰면 **New → Blueprint**로도 같은 서비스를 만들 수 있습니다. SMTP 값은 Dashboard에서 직접 입력합니다.
