@@ -33,7 +33,7 @@ export class PortfolioSeedService implements OnModuleInit {
       name: '승연',
       nameEn: 'Seungyeon',
       title: 'Frontend Developer',
-      experienceLabel: '실무 2년 11개월 · 3년차',
+      experienceLabel: '',
       headline: '제품의 흐름을 설계하고, 화면으로 설득하는 프론트엔드 개발자',
       bio: '커머스 AI 에디터와 병원 예약·어드민까지, 사용자가 실제로 쓰는 화면을 중심으로 일해왔습니다. 복잡한 플로우를 단순하게 보이게 만드는 일을 좋아합니다.',
       location: 'Korea',
@@ -47,32 +47,31 @@ export class PortfolioSeedService implements OnModuleInit {
         id: 'connectwave',
         name: '커넥트웨이브',
         role: 'Frontend Developer',
-        period: '2025.05.20 — 현재',
-        duration: '약 1년 2개월',
+        period: { start: '2025-05-20', end: null },
         summary:
           '플레이오토 셀핏AI에서 상품 상세페이지 AI 제작 경험을 고도화하는 프론트엔드 개발을 담당합니다.',
-        sortOrder: 1,
+        sortOrder: 0,
       },
       {
         id: 'nextinnovation',
         name: '넥스트이노베이션',
         role: 'Frontend Developer',
-        period: '2023.06.28 — 2025.03.19',
-        duration: '약 1년 9개월',
+        period: { start: '2023-06-28', end: '2025-03-19' },
         summary:
           '강북삼성병원 건강검진 웹예약과 리즌마켓(현 두타온) 어드민 등 B2B/내부 운영 제품을 구현했습니다.',
-        sortOrder: 2,
+        sortOrder: 1,
       },
     ]);
 
     await this.projectRepo.save([
       {
         id: 'sellfit',
+        companyId: 'connectwave',
         company: '커넥트웨이브',
         name: '셀핏AI',
-        period: '2025.05 — 현재',
+        period: { start: '2025-05-20', end: null },
         summary:
-          '상품 정보와 키워드만으로 상세페이지를 생성하는 AI 에디터. AI 생성, 직접 제작, 템플릿 기반 제작 플로우를 하나의 제품 경험으로 연결합니다.',
+          '상품 정보와 키워드만으로 상세페이지를 생성하는 AI 에디터. AI 생성, 직접 제작, 템플릿 기반 제작 플로우를 하나의 제품 흐름으로 연결합니다.',
         highlights: [
           'AI / 직접 제작 / MY 템플릿 진입 경로를 분리한 에디터 온보딩 UX',
           '블록·요소 단위 편집이 가능한 상세페이지 제작 인터페이스',
@@ -85,13 +84,14 @@ export class PortfolioSeedService implements OnModuleInit {
         ],
         status: 'placeholder',
         featured: true,
-        sortOrder: 1,
+        sortOrder: 0,
       },
       {
         id: 'samsung-hospital',
+        companyId: 'nextinnovation',
         company: '넥스트이노베이션',
         name: '강북삼성병원 건강검진 웹예약',
-        period: '넥스트이노베이션',
+        period: { start: '2023-06-28', end: '2025-03-19' },
         summary:
           '건강검진 예약 과정을 웹에서 완료할 수 있도록 한 예약 시스템. 복잡한 병원 도메인 플로우를 사용자 기준으로 정리하는 것이 핵심이었습니다.',
         highlights: [
@@ -102,24 +102,25 @@ export class PortfolioSeedService implements OnModuleInit {
         stack: ['React', 'TypeScript', 'Form UX', 'Domain Workflow'],
         status: 'placeholder',
         featured: false,
-        sortOrder: 2,
+        sortOrder: 1,
       },
       {
         id: 'reason-market',
+        companyId: 'nextinnovation',
         company: '넥스트이노베이션',
         name: '리즌마켓 (현 두타온) 어드민',
-        period: '넥스트이노베이션',
+        period: { start: '2023-06-28', end: '2025-03-19' },
         summary:
           '커머스 운영을 위한 어드민 화면 개발. 목록·상세·상태 관리처럼 반복되지만 실수 비용이 큰 운영 UX를 다뤘습니다.',
         highlights: [
           '운영자가 빠르게 상태를 파악하는 어드민 정보 구조',
           '목록/필터/상세 중심의 실무형 관리 화면',
-          '현 두타온으로 이어지는 커머스 운영 도메인 경험',
+          '현 두타온으로 이어지는 커머스 운영 도메인 흐름',
         ],
         stack: ['React', 'TypeScript', 'Admin UI', 'Commerce'],
         status: 'placeholder',
         featured: false,
-        sortOrder: 3,
+        sortOrder: 2,
       },
     ]);
 

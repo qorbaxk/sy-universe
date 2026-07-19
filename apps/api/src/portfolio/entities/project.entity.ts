@@ -6,13 +6,16 @@ export class ProjectEntity {
   id!: string;
 
   @Column()
+  companyId!: string;
+
+  @Column()
   company!: string;
 
   @Column()
   name!: string;
 
-  @Column({ nullable: true })
-  period?: string;
+  @Column({ type: 'simple-json', nullable: true })
+  period?: { start: string; end?: string | null };
 
   @Column({ type: 'text' })
   summary!: string;

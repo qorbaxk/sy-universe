@@ -36,7 +36,6 @@ export class PortfolioService {
         name: profile.name,
         nameEn: profile.nameEn,
         title: profile.title,
-        experienceLabel: profile.experienceLabel,
         headline: profile.headline,
         bio: profile.bio,
         location: profile.location,

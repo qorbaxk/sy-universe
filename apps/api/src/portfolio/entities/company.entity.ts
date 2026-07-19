@@ -11,11 +11,9 @@ export class CompanyEntity {
   @Column()
   role!: string;
 
-  @Column()
-  period!: string;
-
-  @Column()
-  duration!: string;
+  /** ISO 기간 { start, end? } */
+  @Column({ type: 'simple-json' })
+  period!: { start: string; end?: string | null };
 
   @Column({ type: 'text' })
   summary!: string;
