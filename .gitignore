@@ -1,0 +1,17 @@
+node_modules
+dist
+build
+coverage
+.DS_Store
+.env
+.env.*
+!.env.example
+*.log
+.turbo
+.idea
+.vscode/*
+!.vscode/extensions.json
+apps/api/dist
+apps/api/data
+apps/web/dist
+*.sqlite

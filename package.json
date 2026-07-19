@@ -1,0 +1,25 @@
+{
+  "name": "sy-universe",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Obsidian-style portfolio for job switching",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w web",
+    "dev:web": "npm run dev -w web",
+    "dev:api": "npm run start:dev -w api",
+    "build": "npm run build -w web",
+    "build:web": "npm run build -w web",
+    "build:api": "npm run build -w api",
+    "preview": "npm run preview -w web"
+  },
+  "overrides": {
+    "@nestjs/common": "11.1.28",
+    "@nestjs/core": "11.1.28"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
