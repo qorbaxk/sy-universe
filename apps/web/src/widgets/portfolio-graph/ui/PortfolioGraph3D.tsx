@@ -3,11 +3,8 @@ import ForceGraph3D, {
   type ForceGraphMethods,
   type NodeObject,
 } from 'react-force-graph-3d'
-import {
-  graphLinks,
-  graphNodes,
-  type GraphNode,
-} from '@/entities/portfolio'
+import type { FocusRequest } from '@/features/select-graph-node'
+import type { GraphData, GraphNode } from '@/entities/portfolio'
 import {
   createGraphNodeObject,
   pulseGraphNodeObject,
@@ -17,13 +14,17 @@ import {
   focusNode3D,
   pinDraggedNode,
   pinGraphNodes,
-  type FocusRequest,
   type GraphNodeWithCoords,
 } from '../lib/focusNode'
 
 type GraphNodeObject = GraphNodeWithCoords & NodeObject
 
 type PortfolioGraph3DProps = {
+  /**
+   * @alias 그래프 데이터
+   * @description 스냅샷에서 파생된 nodes/links.
+   */
+  data: GraphData
   onSelect: (id: string | null) => void
   width: number
   height: number
@@ -33,7 +34,12 @@ type PortfolioGraph3DProps = {
   onReady?: () => void
 }
 
+/**
+ * @alias 3D 포스 그래프
+ * @description Three.js 기반 태양계형 포트폴리오 그래프 렌더러.
+ */
 export function PortfolioGraph3D({
+  data,
   onSelect,
   width,
   height,
@@ -53,14 +59,14 @@ export function PortfolioGraph3D({
 
   const graphData = useMemo(
     () => ({
-      nodes: graphNodes.map((node) => ({ ...node })) as GraphNodeWithCoords[],
-      links: graphLinks.map((link) => ({
+      nodes: data.nodes.map((node) => ({ ...node })) as GraphNodeWithCoords[],
+      links: data.links.map((link) => ({
         source: link.source,
         target: link.target,
         highlight: link.highlight,
       })),
     }),
-    [],
+    [data],
   )
 
   const failSafe = useCallback(() => {

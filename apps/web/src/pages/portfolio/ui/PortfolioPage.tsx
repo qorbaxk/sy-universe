@@ -1,82 +1,132 @@
-import { useCallback, useState } from 'react'
-import { graphNodes, getNodeById } from '@/entities/portfolio'
-import { GraphTourControls, useGraphTour } from '@/features/graph-tour'
-import { useSelectedNode } from '@/features/select-graph-node'
-import { SpaceBackdrop } from '@/shared/ui/SpaceBackdrop'
+import { useEffect } from 'react'
+import { getNodeById, tourSteps, usePortfolioQuery } from '@/entities/portfolio'
+import { GraphTourControls, TOUR_TOTAL, useTourStore } from '@/features/graph-tour'
+import {
+  useFocusStore,
+  useSelectionStore,
+} from '@/features/select-graph-node'
+import { hideBootSplash } from '@/shared/lib/boot/hideBootSplash'
 import { cn } from '@/shared/lib/cn'
+import { SpaceBackdrop } from '@/shared/ui/SpaceBackdrop'
 import { AppTopbar } from '@/widgets/app-topbar'
 import { DetailPanel } from '@/widgets/detail-panel'
-import { PortfolioGraph, type FocusRequest } from '@/widgets/portfolio-graph'
-import './PortfolioPage.css'
+import { PortfolioGraph } from '@/widgets/portfolio-graph'
 
+/**
+ * @alias 포트폴리오 페이지
+ * @description 쿼리·스토어·위젯을 조합하는 페이지 셸. 비즈니스 로직은 훅/스토어에 둔다.
+ */
 export function PortfolioPage() {
-  const { selectedId, selectNode, clearSelection } = useSelectedNode('me')
-  const [focusRequest, setFocusRequest] = useState<FocusRequest | null>(null)
+  const { data, isLoading, isError } = usePortfolioQuery()
+  const selectedId = useSelectionStore((s) => s.selectedId)
+  const selectNode = useSelectionStore((s) => s.selectNode)
+  const clearSelection = useSelectionStore((s) => s.clearSelection)
+  const focusRequest = useFocusStore((s) => s.focusRequest)
+  const focusNode = useFocusStore((s) => s.focusNode)
 
-  const focusNode = useCallback((nodeId: string) => {
+  // primitive만 구독 — 객체 selector는 getSnapshot 무한루프를 만든다
+  const tourActive = useTourStore((s) => s.active)
+  const tourIndex = useTourStore((s) => s.index)
+  const startTour = useTourStore((s) => s.start)
+  const stopTour = useTourStore((s) => s.stop)
+  const prevTour = useTourStore((s) => s.prev)
+  const nextTour = useTourStore((s) => s.next)
+
+  const tourStep = tourSteps[tourIndex] ?? tourSteps[0]
+  const isFirst = tourIndex === 0
+  const isLast = tourIndex === TOUR_TOTAL - 1
+
+  // 에러 시 스플래시 닫기 + 혹시 onReady가 안 오면 타임아웃 안전망
+  useEffect(() => {
+    if (isError) hideBootSplash()
+  }, [isError])
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => hideBootSplash(), 8000)
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  const visitNode = (nodeId: string) => {
     selectNode(nodeId)
-    setFocusRequest((prev) => ({
-      nodeId,
-      nonce: (prev?.nonce ?? 0) + 1,
-    }))
-  }, [selectNode])
+    focusNode(nodeId)
+  }
 
-  const tour = useGraphTour({
-    onVisit: focusNode,
-  })
-
-  const selectedNode = getNodeById(graphNodes, selectedId)
+  const selectedNode = data
+    ? getNodeById(data.graph.nodes, selectedId)
+    : null
   const panelOpen = Boolean(selectedNode)
 
-  const handleReady = useCallback(() => {
-    focusNode('me')
-  }, [focusNode])
+  if (isLoading) {
+    return <div className="min-h-screen bg-[#02050c]" aria-busy="true" />
+  }
 
-  const handleSelect = useCallback(
-    (id: string | null) => {
-      if (!id) {
-        if (tour.active) return
-        clearSelection()
-        return
-      }
-      focusNode(id)
-    },
-    [clearSelection, focusNode, tour.active],
-  )
-
-  const handleClosePanel = useCallback(() => {
-    if (tour.active) return
-    clearSelection()
-  }, [clearSelection, tour.active])
+  if (isError || !data) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#02050c] text-muted">
+        포트폴리오 데이터를 불러오지 못했어요.
+      </div>
+    )
+  }
 
   return (
-    <div className={cn('portfolio-page', panelOpen && 'is-panel-open')}>
+    <div
+      className={cn(
+        'relative min-h-screen overflow-hidden text-ink',
+        panelOpen && 'pr-0',
+      )}
+    >
       <h1 className="sr-only">승연 · Frontend Developer Portfolio</h1>
+      {/* 우주 배경은 z-0, 그래프는 투명 캔버스로 그 위에 */}
       <SpaceBackdrop />
-      <AppTopbar />
+      <AppTopbar profile={data.snapshot.profile} />
 
-      <div className="portfolio-stage">
+      <div className="fixed inset-0 z-[1] bg-transparent">
         <PortfolioGraph
+          data={data.graph}
           selectedId={selectedId}
-          onSelect={handleSelect}
+          onSelect={(id) => {
+            if (!id) {
+              if (tourActive) return
+              clearSelection()
+              return
+            }
+            visitNode(id)
+          }}
           focusRequest={focusRequest}
-          clearOnBackground={!tour.active}
-          onReady={handleReady}
+          clearOnBackground={!tourActive}
+          onReady={() => {
+            visitNode('me')
+            window.requestAnimationFrame(() => hideBootSplash())
+          }}
         />
       </div>
 
-      <DetailPanel node={selectedNode} onClose={handleClosePanel} />
+      <DetailPanel
+        snapshot={data.snapshot}
+        node={selectedNode}
+        onClose={() => {
+          if (tourActive) return
+          clearSelection()
+        }}
+      />
+
       <GraphTourControls
-        active={tour.active}
-        step={tour.step}
-        index={tour.index}
-        total={tour.total}
-        isFirst={tour.isFirst}
-        isLast={tour.isLast}
-        onStart={tour.start}
-        onStop={tour.stop}
-        onPrev={tour.prev}
-        onNext={tour.next}
+        active={tourActive}
+        step={tourStep}
+        index={tourIndex}
+        total={TOUR_TOTAL}
+        isFirst={isFirst}
+        isLast={isLast}
+        onStart={() => startTour(visitNode)}
+        onStop={stopTour}
+        onPrev={() => prevTour(visitNode)}
+        onNext={() => {
+          if (isLast) {
+            stopTour()
+            return
+          }
+          nextTour(visitNode)
+        }}
       />
     </div>
   )

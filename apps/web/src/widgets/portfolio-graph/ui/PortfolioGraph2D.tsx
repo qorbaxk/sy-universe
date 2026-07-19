@@ -3,20 +3,25 @@ import ForceGraph2D, {
   type ForceGraphMethods,
   type NodeObject,
 } from 'react-force-graph-2d'
-import { getCelestialBody, graphLinks, graphNodes } from '@/entities/portfolio'
+import { getCelestialBody, type GraphData } from '@/entities/portfolio'
+import type { FocusRequest } from '@/features/select-graph-node'
 import { theme } from '@/shared/config/theme'
 import {
   findNodeById,
   focusNode2D,
   pinDraggedNode,
   pinGraphNodes,
-  type FocusRequest,
   type GraphNodeWithCoords,
 } from '../lib/focusNode'
 
 type GraphNodeObject = GraphNodeWithCoords & NodeObject
 
 type PortfolioGraph2DProps = {
+  /**
+   * @alias 그래프 데이터
+   * @description 스냅샷에서 파생된 nodes/links.
+   */
+  data: GraphData
   selectedId: string | null
   onSelect: (id: string | null) => void
   width: number
@@ -26,7 +31,12 @@ type PortfolioGraph2DProps = {
   onReady?: () => void
 }
 
+/**
+ * @alias 2D 포스 그래프
+ * @description WebGL 불가 시 캔버스 폴백 그래프.
+ */
 export function PortfolioGraph2D({
+  data,
   selectedId,
   onSelect,
   width,
@@ -45,14 +55,14 @@ export function PortfolioGraph2D({
 
   const graphData = useMemo(
     () => ({
-      nodes: graphNodes.map((node) => ({ ...node })) as GraphNodeWithCoords[],
-      links: graphLinks.map((link) => ({
+      nodes: data.nodes.map((node) => ({ ...node })) as GraphNodeWithCoords[],
+      links: data.links.map((link) => ({
         source: link.source,
         target: link.target,
         highlight: link.highlight,
       })),
     }),
-    [],
+    [data],
   )
 
   const settleAndReady = useCallback(() => {

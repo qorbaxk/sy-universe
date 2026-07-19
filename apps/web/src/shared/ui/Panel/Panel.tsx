@@ -1,18 +1,40 @@
 import type { ReactNode, SyntheticEvent } from 'react'
 import { AnimatePresence, motion, useDragControls } from 'framer-motion'
+import { cn } from '@/shared/lib/cn'
 import { useMediaQuery } from '@/shared/lib/media/useMediaQuery'
 import { Button } from '@/shared/ui/Button'
-import { cn } from '@/shared/lib/cn'
-import './Panel.css'
 
 type PanelProps = {
+  /**
+   * @alias 열림
+   * @description true면 패널을 표시한다.
+   */
   open: boolean
+
+  /**
+   * @alias 닫기 핸들러
+   * @description 닫기 버튼/스와이프 시 호출.
+   */
   onClose: () => void
+
+  /**
+   * @alias 헤더
+   * @description 제목 영역 슬롯.
+   */
   header?: ReactNode
+
+  /**
+   * @alias 본문
+   * @description 패널 스크롤 영역 콘텐츠.
+   */
   children: ReactNode
   className?: string
 }
 
+/**
+ * @alias 상세 패널
+ * @description PC는 우측 플로팅, 모바일은 바텀시트.
+ */
 export function Panel({
   open,
   onClose,
@@ -32,11 +54,12 @@ export function Panel({
     <AnimatePresence mode="wait">
       {open && (
         <motion.aside
-          // PC ↔ 모바일 전환 시 transform/drag 상태가 꼬이지 않도록 모드별 리마운트
           key={isMobile ? 'panel-sheet' : 'panel-side'}
           className={cn(
-            'ui-panel',
-            isMobile && 'ui-panel--sheet',
+            'pointer-events-auto fixed z-40 flex flex-col border border-white/10 bg-[#0b1118]/92 text-ink shadow-2xl backdrop-blur-xl',
+            isMobile
+              ? 'inset-x-0 bottom-0 max-h-[78vh] rounded-t-3xl'
+              : 'top-20 right-5 bottom-6 w-[min(380px,calc(100vw-2rem))] rounded-2xl',
             className,
           )}
           initial={
@@ -62,25 +85,23 @@ export function Panel({
           dragElastic={isMobile ? { top: 0.05, bottom: 0.35 } : 0}
           onDragEnd={(_, info) => {
             if (!isMobile) return
-            if (info.offset.y > 110 || info.velocity.y > 650) {
-              onClose()
-            }
+            if (info.offset.y > 110 || info.velocity.y > 650) onClose()
           }}
         >
-          <div className="ui-panel__chrome">
+          <div className="shrink-0 border-b border-white/8 px-4 pt-3 pb-3">
             {isMobile && (
               <div
-                className="ui-panel__handle-wrap"
+                className="mb-2 flex justify-center py-1"
                 aria-hidden
                 onPointerDown={(event) => dragControls.start(event)}
               >
-                <span className="ui-panel__handle" />
+                <span className="h-1 w-10 rounded-full bg-white/25" />
               </div>
             )}
 
-            <div className="ui-panel__header">
+            <div className="relative pr-14">
               <Button
-                className="ui-panel__close"
+                className="absolute top-0 right-0"
                 variant="ghost"
                 type="button"
                 aria-label="닫기"
@@ -89,11 +110,15 @@ export function Panel({
               >
                 닫기
               </Button>
-              {header}
+              <div className="space-y-1 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-ink">
+                {header}
+              </div>
             </div>
           </div>
 
-          <div className="ui-panel__body">{children}</div>
+          <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+            {children}
+          </div>
         </motion.aside>
       )}
     </AnimatePresence>

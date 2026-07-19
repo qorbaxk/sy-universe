@@ -8,6 +8,10 @@ type OrbitControlsLike = {
   autoRotateSpeed?: number
 }
 
+/**
+ * @alias ID로 노드 찾기
+ * @description 좌표가 붙은 노드 배열에서 id로 검색한다.
+ */
 export function findNodeById<T extends { id?: string | number }>(
   nodes: T[],
   id: string,
@@ -15,6 +19,10 @@ export function findNodeById<T extends { id?: string | number }>(
   return nodes.find((node) => String(node.id) === id)
 }
 
+/**
+ * @alias 3D 노드 포커스
+ * @description 카메라를 노드 근처로 부드럽게 이동한다.
+ */
 export function focusNode3D(
   graph: {
     cameraPosition: (
@@ -56,6 +64,10 @@ export function focusNode3D(
   return true
 }
 
+/**
+ * @alias 2D 노드 포커스
+ * @description 캔버스를 노드 중심으로 줌한다.
+ */
 export function focusNode2D(
   graph: {
     centerAt: (x: number, y: number, duration: number) => void
@@ -70,11 +82,10 @@ export function focusNode2D(
   return true
 }
 
-export type FocusRequest = {
-  nodeId: string
-  nonce: number
-}
-
+/**
+ * @alias 좌표 포함 그래프 노드
+ * @description force-graph 시뮬레이션이 채우는 x/y/z 및 핀 필드.
+ */
 export type GraphNodeWithCoords = GraphNode & {
   x?: number
   y?: number
@@ -87,7 +98,10 @@ export type GraphNodeWithCoords = GraphNode & {
   fz?: number
 }
 
-/** 초기 배치가 끝나면 위치를 고정해 클릭/포커스 시 흔들림을 없앰 */
+/**
+ * @alias 전체 노드 핀
+ * @description 초기 배치가 끝나면 위치를 고정해 클릭/포커스 시 흔들림을 없앤다.
+ */
 export function pinGraphNodes(nodes: GraphNodeWithCoords[]) {
   for (const node of nodes) {
     if (node.x == null || node.y == null) continue
@@ -100,6 +114,10 @@ export function pinGraphNodes(nodes: GraphNodeWithCoords[]) {
   }
 }
 
+/**
+ * @alias 드래그 종료 핀
+ * @description 사용자가 옮긴 노드를 그 자리에 고정한다.
+ */
 export function pinDraggedNode(node: GraphNodeWithCoords) {
   if (node.x == null || node.y == null) return
   node.fx = node.x
