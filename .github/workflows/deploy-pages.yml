@@ -35,7 +35,13 @@ jobs:
         env:
           # Render API 주소. 예: https://sy-universe-api.onrender.com/api
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
-        run: npm run build -w web
+        run: |
+          if [ -z "$VITE_API_URL" ]; then
+            echo "::error::VITE_API_URL secret이 비어 있습니다. Settings → Secrets에 https://….onrender.com/api 를 넣고 다시 배포하세요."
+            exit 1
+          fi
+          echo "VITE_API_URL host=$(echo "$VITE_API_URL" | sed -E 's#https?://([^/]+).*#\1#')"
+          npm run build -w web
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
