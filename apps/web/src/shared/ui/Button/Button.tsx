@@ -23,11 +23,11 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variantClass: Record<ButtonVariant, string> = {
   ghost:
-    'bg-transparent text-ink hover:bg-white/5 border border-transparent',
+    'bg-transparent text-muted border border-white/10 hover:text-ink hover:bg-white/5',
   accent:
-    'bg-accent text-[#1a1208] hover:brightness-105 border border-transparent font-semibold',
+    'bg-accent text-[#14110c] hover:brightness-105 border border-transparent font-semibold',
   outline:
-    'bg-transparent text-ink border border-white/15 hover:border-accent-2/50 hover:bg-white/[0.03]',
+    'bg-transparent text-accent border border-accent/45 hover:bg-accent hover:text-[#14110c]',
 }
 
 /**

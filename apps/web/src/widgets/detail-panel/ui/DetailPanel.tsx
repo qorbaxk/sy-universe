@@ -56,7 +56,7 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
             {detail.companies.map((company) => (
               <li key={company.id} className="space-y-1">
                 <strong className="text-ink">{company.name}</strong>
-                <span className="block text-xs">
+                <span className="block text-[0.85rem] text-accent">
                   {formatCareerPeriod?.(company.period)} ·{' '}
                   {formatDuration?.(company.period)}
                 </span>
@@ -86,7 +86,7 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
               역할·성과 상세는 이후 프로젝트 자료를 보고 보강 예정입니다.
             </p>
           )}
-          <h3 className="pt-1 text-xs font-semibold tracking-wide text-ink uppercase">
+          <h3 className="pt-1 text-[0.92rem] font-semibold text-accent-2">
             Highlights
           </h3>
           <ul className="list-disc space-y-1 pl-5">
@@ -94,7 +94,7 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <h3 className="pt-1 text-xs font-semibold tracking-wide text-ink uppercase">
+          <h3 className="pt-1 text-[0.92rem] font-semibold text-accent-2">
             Stack
           </h3>
           <ChipRow>
@@ -104,7 +104,7 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
           </ChipRow>
           {detail.project.links && detail.project.links.length > 0 && (
             <>
-              <h3 className="pt-1 text-xs font-semibold tracking-wide text-ink uppercase">
+              <h3 className="pt-1 text-[0.92rem] font-semibold text-accent-2">
                 Links
               </h3>
               <ChipRow>
@@ -130,25 +130,19 @@ export function DetailPanel({ snapshot, node, onClose }: DetailPanelProps) {
           <p className="text-base text-ink">
             프론트엔드 구현과 제품 UX를 중심으로 쌓아온 역량입니다.
           </p>
-          <h3 className="text-xs font-semibold tracking-wide text-ink uppercase">
-            Core
-          </h3>
+          <h3 className="text-[0.92rem] font-semibold text-accent-2">Core</h3>
           <ChipRow>
             {detail.skills.core.map((item) => (
               <Chip key={item}>{item}</Chip>
             ))}
           </ChipRow>
-          <h3 className="text-xs font-semibold tracking-wide text-ink uppercase">
-            Product
-          </h3>
+          <h3 className="text-[0.92rem] font-semibold text-accent-2">Product</h3>
           <ChipRow>
             {detail.skills.product.map((item) => (
               <Chip key={item}>{item}</Chip>
             ))}
           </ChipRow>
-          <h3 className="text-xs font-semibold tracking-wide text-ink uppercase">
-            Tooling
-          </h3>
+          <h3 className="text-[0.92rem] font-semibold text-accent-2">Tooling</h3>
           <ChipRow>
             {detail.skills.tooling.map((item) => (
               <Chip key={item}>{item}</Chip>
@@ -200,7 +194,7 @@ function buildHeader(
   if (detail.type === 'me') {
     return (
       <>
-        <Eyebrow>{snapshot.profile.title}</Eyebrow>
+        <Eyebrow variant="accent">{snapshot.profile.title}</Eyebrow>
         <h2>{snapshot.profile.name}</h2>
       </>
     )
@@ -208,7 +202,7 @@ function buildHeader(
   if (detail.type === 'career') {
     return (
       <>
-        <Eyebrow>Career</Eyebrow>
+        <Eyebrow variant="accent">Career</Eyebrow>
         <h2>경력 타임라인</h2>
       </>
     )
@@ -216,7 +210,7 @@ function buildHeader(
   if (detail.type === 'company') {
     return (
       <>
-        <Eyebrow>Company</Eyebrow>
+        <Eyebrow variant="accent">Company</Eyebrow>
         <h2>{detail.company.name}</h2>
       </>
     )
@@ -224,7 +218,7 @@ function buildHeader(
   if (detail.type === 'project') {
     return (
       <>
-        <Eyebrow>{detail.project.company}</Eyebrow>
+        <Eyebrow variant="accent">{detail.project.company}</Eyebrow>
         <h2>{detail.project.name}</h2>
       </>
     )
@@ -232,14 +226,14 @@ function buildHeader(
   if (detail.type === 'skills') {
     return (
       <>
-        <Eyebrow>Skills</Eyebrow>
+        <Eyebrow variant="accent">Skills</Eyebrow>
         <h2>기술 스택</h2>
       </>
     )
   }
   return (
     <>
-      <Eyebrow>Contact</Eyebrow>
+      <Eyebrow variant="accent">Contact</Eyebrow>
       <h2>연락하기</h2>
     </>
   )
