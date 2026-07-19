@@ -224,9 +224,9 @@ API:
 - URL: https://qorbaxk.github.io/sy-universe/
 - `main` push → GitHub Actions가 `apps/web`을 Pages로 배포
 - Settings → Pages → Source = **GitHub Actions**
-- 문의 API 연동: repo **Settings → Secrets → Actions**에  
+- 문의 API 연동: repo **Settings → Secrets and variables → Actions → Variables**에  
   `VITE_API_URL` = `https://<render-서비스명>.onrender.com/api`  
-  (**끝에 `/api` 필수** — origin만 넣으면 문의/챗이 404납니다)
+  (**끝에 `/api` 필수**. Environment `github-pages` 시크릿이 아니라 **Repository variable**에 넣어야 빌드 job이 읽습니다)
 
 ### API (Render Free)
 

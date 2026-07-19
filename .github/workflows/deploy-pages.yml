@@ -33,11 +33,18 @@ jobs:
 
       - name: Build
         env:
-          # Render API 주소. 예: https://sy-universe-api.onrender.com/api
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          # 공개 API URL이라 Variables 권장. Secrets도 허용.
+          # 예: https://sy-universe-api.onrender.com/api
+          # ※ Environment(github-pages) 시크릿이 아니라 Repository secrets/variables 에 넣어야 함
+          VITE_API_URL: ${{ vars.VITE_API_URL || secrets.VITE_API_URL }}
         run: |
           if [ -z "$VITE_API_URL" ]; then
-            echo "::error::VITE_API_URL secret이 비어 있습니다. Settings → Secrets에 https://….onrender.com/api 를 넣고 다시 배포하세요."
+            echo "::error::VITE_API_URL 이 비어 있습니다."
+            echo "Settings → Secrets and variables → Actions 에서"
+            echo "  Variables 탭 → New repository variable"
+            echo "  Name: VITE_API_URL"
+            echo "  Value: https://sy-universe-api.onrender.com/api"
+            echo "Environment(github-pages) 전용 시크릿에 넣으면 build job에서 읽히지 않습니다."
             exit 1
           fi
           echo "VITE_API_URL host=$(echo "$VITE_API_URL" | sed -E 's#https?://([^/]+).*#\1#')"
